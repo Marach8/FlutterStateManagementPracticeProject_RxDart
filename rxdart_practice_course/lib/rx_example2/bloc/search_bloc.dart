@@ -6,7 +6,7 @@ import 'package:rxdart_practice_course/rx_example2/search_resutls.dart';
 @immutable 
 class SearchBloc{
   final Sink<String> search; //write
-  final Stream<SearchResult?> results;
+  final Stream<SearchResult?> results; //read
    
   void dispose(){search.close();}
 

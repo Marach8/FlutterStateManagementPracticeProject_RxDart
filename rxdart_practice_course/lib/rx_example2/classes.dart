@@ -19,14 +19,7 @@ class Animal extends Thing{
   String toString() => "Animal: name = $name, type = $type";
 
   factory Animal.fromRemoteJson(Map<String, dynamic> marach){
-    final AnimalType animalType;
-    switch((marach["type"] as String).toLowerCase().trim()){
-      case 'rabbit': animalType = AnimalType.rabbit; break;
-      case 'dog': animalType = AnimalType.dog; break;
-      case 'cat': animalType = AnimalType.cat; break;
-      default: animalType = AnimalType.unknown;
-    }
-    return Animal(name: marach["name"] as String, type: animalType as String);
+    return Animal(name: marach["name"] as String, type: marach["type"]);
   }
 }
 
