@@ -8,8 +8,6 @@ class Thing{
 
 
 
-enum AnimalType{cat, dog, rabbit, unknown}
-
 @immutable 
 class Animal extends Thing{
   final String type;
