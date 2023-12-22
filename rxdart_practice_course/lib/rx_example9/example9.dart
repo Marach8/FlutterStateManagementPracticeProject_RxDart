@@ -4,14 +4,14 @@ import 'package:rxdart/rxdart.dart';
 
 @immutable 
 class Bloc{
-  final Sink<String?> firstName;
-  final Sink<String?> lastName;
+  final Sink<String?> firstNameSink;
+  final Sink<String?> lastNameSink;
   final Stream<String> fullName;
   
 
-  const Bloc._({required this.firstName, required this.lastName, required this.fullName});
+  const Bloc._({required this.firstNameSink, required this.lastNameSink, required this.fullName});
 
-  void dispose(){firstName.close(); lastName.close();}
+  void dispose(){firstNameSink.close(); lastNameSink.close();}
 
   factory Bloc(){
     final firstNameSubject = BehaviorSubject<String?>();
@@ -24,7 +24,7 @@ class Bloc{
         } else{return 'Please provide both the first and last name!';}
       }
     );
-    return Bloc._(firstName: firstNameSubject.sink, lastName: lastNameSubject.sink, fullName: fullName);
+    return Bloc._(firstNameSink: firstNameSubject.sink, lastNameSink: lastNameSubject.sink, fullName: fullName);
   }
 }
 
@@ -53,13 +53,13 @@ class AsyncSnapshotBuilder<T> extends StatelessWidget {
             final callback = onNone ?? (_, __) => const SizedBox();
             return callback(context, snapshot.data);
           case ConnectionState.waiting:
-            final callback = onNone ?? (_, __) => const CircularProgressIndicator();
+            final callback = onWaiting ?? (_, __) => const CircularProgressIndicator();
             return callback(context, snapshot.data);
           case ConnectionState.active:
-            final callback = onNone ?? (_, __) => const SizedBox();
+            final callback = onActive ?? (_, __) => const SizedBox();
             return callback(context, snapshot.data);
           case ConnectionState.done:
-            final callback = onNone ?? (_, __) => const SizedBox();
+            final callback = onDone ?? (_, __) => const SizedBox();
             return callback(context, snapshot.data);
         }
       }
@@ -93,15 +93,15 @@ class _Example9State extends State<Example9> {
         children: [
           TextField(
             decoration: const InputDecoration(hintText: 'Enter firstName'),
-            onChanged: bloc.firstName.add
+            onChanged: bloc.firstNameSink.add
           ),
           TextField(
             decoration: const InputDecoration(hintText: 'Enter lastName'),
-            onChanged: bloc.lastName.add
+            onChanged: bloc.lastNameSink.add
           ),
           AsyncSnapshotBuilder<String>(
             stream: bloc.fullName,
-            onActive: (context, String? value) => Text(value ?? '')
+            onActive: (context, value) => Text(value ?? '')
           )
         ]
       )

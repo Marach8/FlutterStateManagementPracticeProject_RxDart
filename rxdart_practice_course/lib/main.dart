@@ -7,6 +7,7 @@ import 'package:rxdart_practice_course/rx_example5/example5.dart';
 import 'package:rxdart_practice_course/rx_example6/example6.dart';
 import 'package:rxdart_practice_course/rx_example7/example7.dart';
 import 'package:rxdart_practice_course/rx_example8/example8.dart';
+import 'package:rxdart_practice_course/rx_example9/example9.dart';
 
 void main() {runApp(const MyApp());}
 
@@ -22,7 +23,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
         unselectedWidgetColor: Colors.yellow
       ),
-      home: const Example8()
+      home: const Example9()
     );
   }
 }
