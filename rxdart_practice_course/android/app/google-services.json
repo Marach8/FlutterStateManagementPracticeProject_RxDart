@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "556526263881",
+    "project_id": "rxdart-practice-app",
+    "storage_bucket": "rxdart-practice-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:556526263881:android:19bae3100f9448a53c6998",
+        "android_client_info": {
+          "package_name": "com.example.rxdart_practice_course"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAOlgCuaOtcxAqRBI0an1wfHXUuxqaNn98"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
