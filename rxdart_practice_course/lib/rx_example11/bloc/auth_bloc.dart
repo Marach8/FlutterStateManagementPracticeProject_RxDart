@@ -62,7 +62,8 @@ class AuthBloc{
     final isLoading = BehaviorSubject<bool>();
 
     final Stream<AuthStatus> authStatus = FirebaseAuth.instance
-      .authStateChanges().map((user) => user == null ? const AuthStatusLoggedOut() : const AuthStatusLoggedIn());
+      .authStateChanges().map((user) 
+        => user == null ? const AuthStatusLoggedOut() : const AuthStatusLoggedIn());
 
     final Stream<String?> userId = FirebaseAuth.instance.authStateChanges().map((user) => user?.uid).
       startWith(FirebaseAuth.instance.currentUser?.uid);
