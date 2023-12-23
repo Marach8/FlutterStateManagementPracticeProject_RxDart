@@ -11,4 +11,21 @@ class Contact{
 
   Contact.withoutId({required this.firstName, required this.lastName, required this.phone})
     : id = const Uuid().v4();
+
+  Contact.fromFirebase(Map<String, dynamic> firebaseContact, {required this.id})
+   :firstName = firebaseContact[Keys.firstNameKey] as String,
+   lastName = firebaseContact[Keys.lastNameKey] as String,
+   phone = firebaseContact[Keys.phoneKey] as String;
+
+  @override 
+  String toString() => 'FirstName is $firstName, LastName is $lastName';
+}
+
+
+@immutable 
+class Keys{
+  const Keys();
+  static const firstNameKey = 'first_name';
+  static const lastNameKey = 'last_name';
+  static const phoneKey = 'phone_number';
 }
