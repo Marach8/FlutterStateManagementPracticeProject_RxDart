@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/cupertino.dart';
+import 'package:rxdart/rxdart.dart';
 import 'package:rxdart_practice_course/rx_example11/bloc/auth_bloc.dart';
 import 'package:rxdart_practice_course/rx_example11/bloc/auth_error.dart';
 import 'package:rxdart_practice_course/rx_example11/bloc/contacts_bloc.dart';
@@ -25,6 +26,20 @@ class AppBloc{
   factory AppBloc(){
     final authBloc = AuthBloc(); final viewsBloc = ViewsBloc(); final contactBloc = ContactBloc();
     final userIdChanges = authBloc.userId.listen((id) => contactBloc.userId.add(id));
+
+    final Stream<ScreenViews> currentViewBasedOnAuthStatus = authBloc.authStatus.map<ScreenViews>((status) {
+      if(status is AuthStatusLoggedIn){return ScreenViews.contactListView;}
+      else{return ScreenViews.loginView;}
+    });
+
+    final Stream<ScreenViews> currentView = Rx.merge([currentViewBasedOnAuthStatus, viewsBloc.currentView]);
+
+    final Stream<bool> isLoading = Rx.merge([authBloc.isLoading]);
+    return AppBloc._(
+      authBloc: authBloc, viewsBloc: viewsBloc,  authError: authBloc.authError.asBroadcastStream(),
+      contactBloc: contactBloc, userIdChanges: userIdChanges,
+      currentView: currentView, isLoading: isLoading.asBroadcastStream(),
+    );
   }
 
   void deleteContact(Contact contact)
