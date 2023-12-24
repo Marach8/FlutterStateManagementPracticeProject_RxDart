@@ -4,7 +4,8 @@ import 'package:rxdart_practice_course/rx_example11/extensions/extensions.dart';
 import 'package:rxdart_practice_course/rx_example11/extensions/typedefs.dart';
 
 class RegisterView extends HookWidget {
-  final RegisterFunction register; final VoidCallback gotoLoginView;
+  final RegisterFunction register; 
+  final VoidCallback gotoLoginView;
   const RegisterView({required this.register, required this.gotoLoginView, super.key});
 
   @override

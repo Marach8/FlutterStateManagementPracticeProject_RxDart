@@ -28,5 +28,5 @@ Future<bool> showLogOutDialog({required BuildContext context})
   => showGenericDialog<bool?>(
     context: context, title: 'LogOut?', 
     content: 'Are you sure you want to Log Out?', 
-    options: () => {'Cancel':false, 'Delete': true}
+    options: () => {'Cancel':false, 'Logout': true}
   ).then((value) => value ?? false);

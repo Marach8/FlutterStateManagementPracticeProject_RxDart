@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:rxdart_practice_course/firebase_options.dart';
 import 'package:rxdart_practice_course/rx_example1/example1.dart';
 import 'package:rxdart_practice_course/rx_example10/example10.dart';
+import 'package:rxdart_practice_course/rx_example11/views/example11_home_view.dart';
 import 'package:rxdart_practice_course/rx_example2/views/home_view.dart';
 import 'package:rxdart_practice_course/rx_example3/example3.dart';
 import 'package:rxdart_practice_course/rx_example4/example4.dart';
@@ -30,7 +31,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
         unselectedWidgetColor: Colors.yellow
       ),
-      home: const Example10()
+      home: const Example11()
     );
   }
 }

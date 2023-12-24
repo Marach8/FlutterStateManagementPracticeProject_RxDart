@@ -54,7 +54,7 @@ class ContactListView extends StatelessWidget {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: (){createNewContact;}, child: const Icon(Icons.add)
+        onPressed: createNewContact, child: const Icon(Icons.add)
       )
     );
   }

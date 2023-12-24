@@ -43,19 +43,29 @@ class AuthStatusLoggedOut implements AuthStatus{
 @immutable 
 class AuthBloc{
   //Read Only properties
-  final Stream<AuthStatus> authStatus; final Stream<AuthError?> authError;
-  final Stream<String?> userId; final Stream<bool> isLoading;
+  final Stream<AuthStatus> authStatus; 
+  final Stream<AuthError?> authError;
+  final Stream<String?> userId; 
+  final Stream<bool> isLoading;
   //Write Only properties
   final Sink<LoginCommand> loginCommand;
   final Sink<RegisterCommand> registerCommand;
   final Sink<void> logoutCommand;
 
-  void dispose(){loginCommand.close(); registerCommand.close(); logoutCommand.close();}
+  void dispose(){
+    loginCommand.close(); 
+    registerCommand.close(); 
+    logoutCommand.close();
+  }
 
   const AuthBloc._({
-    required this.authStatus, required this.authError, required this.userId,
-    required this.isLoading, required this.loginCommand, 
-    required this.registerCommand, required this.logoutCommand
+    required this.authStatus, 
+    required this.authError, 
+    required this.userId,
+    required this.isLoading, 
+    required this.loginCommand, 
+    required this.registerCommand, 
+    required this.logoutCommand
   });
 
   factory AuthBloc(){
