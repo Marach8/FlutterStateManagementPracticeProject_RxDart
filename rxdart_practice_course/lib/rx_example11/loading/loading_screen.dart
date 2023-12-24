@@ -10,6 +10,16 @@ class LoadingScreen{
 
   LoadingScreenController? controller;
 
+  void showLoadingScreen(BuildContext context, String text){
+    if(controller?.update(text) ?? false){return;}
+    else{controller = _showOverlay(context: context, text: text);}
+  }
+
+  void hideLoadingScreen(){
+    controller?.close();
+    controller = null;
+  }
+
   LoadingScreenController _showOverlay({required BuildContext context, required String text}){
     final streamText = StreamController<String>();
     streamText.sink.add(text);

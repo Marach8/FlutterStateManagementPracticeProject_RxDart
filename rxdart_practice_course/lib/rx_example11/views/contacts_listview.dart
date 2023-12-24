@@ -5,15 +5,19 @@ import 'package:rxdart_practice_course/rx_example11/models/contact_models.dart';
 import 'package:rxdart_practice_course/rx_example11/views/popupview.dart';
 
 class ContactListView extends StatelessWidget {
-  final Contact contact; final DeleteContactCallback deleteContact;
-  final LogoutCallback logout; final DeleteAccountCallback deleteAccount;
-  final CreateContactCallback createContact;
+  final DeleteContactCallback deleteContact;
+  final LogoutCallback logout; 
+  final DeleteAccountCallback deleteAccount;
+  final CreateNewContactCallBack createNewContact;
   final Stream<Iterable<Contact>> contacts;
 
   const ContactListView({
-    required this.contact, required this.deleteContact, required this.logout, 
-    required this.deleteAccount, required this.createContact, super.key, 
-    required this.contacts
+    required this.deleteContact, 
+    required this.logout, 
+    required this.deleteAccount, 
+    required this.createNewContact, 
+    required this.contacts,
+    super.key, 
   });
 
   @override
@@ -50,7 +54,7 @@ class ContactListView extends StatelessWidget {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: (){createContact;}, child: const Icon(Icons.add)
+        onPressed: (){createNewContact;}, child: const Icon(Icons.add)
       )
     );
   }

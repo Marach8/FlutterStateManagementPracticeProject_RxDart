@@ -3,6 +3,7 @@ import 'package:rxdart_practice_course/rx_example11/models/contact_models.dart';
 
 typedef LogoutCallback = VoidCallback;
 typedef GoBackCallback = VoidCallback;
+typedef CreateNewContactCallBack = VoidCallback;
 typedef DeleteAccountCallback = VoidCallback;
 typedef LoginFunction = void Function(String email, String password);
 typedef RegisterFunction = void Function(String email, String password);

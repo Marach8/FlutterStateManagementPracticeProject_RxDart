@@ -5,26 +5,39 @@ import 'package:rxdart_practice_course/rx_example11/bloc/auth_bloc.dart';
 import 'package:rxdart_practice_course/rx_example11/bloc/auth_error.dart';
 import 'package:rxdart_practice_course/rx_example11/bloc/contacts_bloc.dart';
 import 'package:rxdart_practice_course/rx_example11/models/contact_models.dart';
-import 'package:rxdart_practice_course/rx_example11/views/views_bloc.dart';
+import 'package:rxdart_practice_course/rx_example11/bloc/views_bloc.dart';
 
 @immutable 
 class AppBloc{
-  final AuthBloc _authBloc; final ViewsBloc _viewsBloc; final ContactBloc _contactBloc;
-  final Stream<ScreenViews> currentView; final Stream<bool> isLoading;
-  final Stream<AuthError?> authError; final StreamSubscription<String?> userIdChanges;
+  final AuthBloc _authBloc; 
+  final ViewsBloc _viewsBloc; 
+  final ContactBloc _contactBloc;
+  final Stream<ScreenViews> currentView; 
+  final Stream<bool> isLoading;
+  final Stream<AuthError?> authError; 
+  final StreamSubscription<String?> userIdChanges;
 
   const AppBloc._({
-    required authBloc, required ViewsBloc viewsBloc, 
-    required ContactBloc contactBloc, required this.currentView, 
-    required this.isLoading, required this.authError, required this.userIdChanges
+    required authBloc, 
+    required ViewsBloc viewsBloc, 
+    required ContactBloc contactBloc, 
+    required this.currentView, 
+    required this.isLoading, 
+    required this.authError, 
+    required this.userIdChanges
   }) : _authBloc = authBloc, _viewsBloc = viewsBloc, _contactBloc = contactBloc;
 
   void dispose(){
-    _authBloc.dispose(); _viewsBloc.dispose(); _contactBloc.dispose(); userIdChanges.cancel();
+    _authBloc.dispose(); 
+    _viewsBloc.dispose();
+    _contactBloc.dispose();
+    userIdChanges.cancel();
   }
 
   factory AppBloc(){
-    final authBloc = AuthBloc(); final viewsBloc = ViewsBloc(); final contactBloc = ContactBloc();
+    final authBloc = AuthBloc();
+    final viewsBloc = ViewsBloc(); 
+    final contactBloc = ContactBloc();
     final userIdChanges = authBloc.userId.listen((id) => contactBloc.userId.add(id));
 
     final Stream<ScreenViews> currentViewBasedOnAuthStatus = authBloc.authStatus.map<ScreenViews>((status) {
@@ -35,10 +48,15 @@ class AppBloc{
     final Stream<ScreenViews> currentView = Rx.merge([currentViewBasedOnAuthStatus, viewsBloc.currentView]);
 
     final Stream<bool> isLoading = Rx.merge([authBloc.isLoading]);
+
     return AppBloc._(
-      authBloc: authBloc, viewsBloc: viewsBloc,  authError: authBloc.authError.asBroadcastStream(),
-      contactBloc: contactBloc, userIdChanges: userIdChanges,
-      currentView: currentView, isLoading: isLoading.asBroadcastStream(),
+      authBloc: authBloc, 
+      viewsBloc: viewsBloc,  
+      authError: authBloc.authError.asBroadcastStream(),
+      contactBloc: contactBloc, 
+      userIdChanges: userIdChanges,
+      currentView: currentView, 
+      isLoading: isLoading.asBroadcastStream(),
     );
   }
 
@@ -46,9 +64,14 @@ class AppBloc{
     => _contactBloc.deleteContact.add(contact);
 
   void createContact(String firstName, String lastName, String phone)
-    => _contactBloc.createContact.add(Contact.withoutId(
-      firstName: firstName, lastName: lastName, phone: phone
-    ));
+    => _contactBloc.createContact.add(
+      Contact.withoutId(
+        firstName: firstName, 
+        lastName: lastName, 
+        phone: phone
+      )
+    );
+
   void deleteAccount(){}
 
   void logout() => _authBloc.logoutCommand.add(null);
