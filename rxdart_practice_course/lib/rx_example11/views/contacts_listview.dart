@@ -22,28 +22,32 @@ class ContactListView extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Contacts View'), centerTitle: true,
         actions: [PopUpMenuView(logout: logout, deleteAccount: deleteAccount)]
-      ),body: StreamBuilder<Iterable<Contact>>(
-        stream: contacts,
-        builder: (_, snapshot){
-          switch(snapshot.connectionState){
-            case ConnectionState.none:
-            case ConnectionState.waiting: 
-              return const Center(child: CircularProgressIndicator());
-            case ConnectionState.done:
-            case ConnectionState.active: 
-              if(snapshot.data == null){
-                return const SizedBox.shrink();
-              } else{
-                return ListView.builder(
-                  itemCount: snapshot.data!.length,
-                  itemBuilder: (context, listIndex){
-                    final contact = snapshot.data!.elementAt(listIndex);
-                    return ContactListTile(contact: contact, deleteContact: deleteContact);
-                  }
-                );
-              }            
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: StreamBuilder<Iterable<Contact>>(
+          stream: contacts,
+          builder: (_, snapshot){
+            switch(snapshot.connectionState){
+              case ConnectionState.none:
+              case ConnectionState.waiting: 
+                return const Center(child: CircularProgressIndicator());
+              case ConnectionState.done:
+              case ConnectionState.active: 
+                if(snapshot.data == null){
+                  return const SizedBox.shrink();
+                } else{
+                  return ListView.builder(
+                    itemCount: snapshot.data!.length,
+                    itemBuilder: (context, listIndex){
+                      final contact = snapshot.data!.elementAt(listIndex);
+                      return ContactListTile(contact: contact, deleteContact: deleteContact);
+                    }
+                  );
+                }            
+            }
           }
-        }
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: (){createContact;}, child: const Icon(Icons.add)

@@ -18,36 +18,39 @@ class NewContactView extends HookWidget {
         title: const Text('Add your contact'), centerTitle: true, 
         leading: IconButton(onPressed: goBackCallback, icon: const Icon(Icons.close))
       ),
-      body: Column(
-        children: [
-          TextField(
-            controller : firstNameController,
-            decoration: const InputDecoration(hintText: 'FirstName...'),
-            keyboardType: TextInputType.name,
-            keyboardAppearance: Brightness.dark,
-          ),
-          TextField(
-            controller : lastNameController,
-            decoration: const InputDecoration(hintText: 'LastName...'),
-            keyboardType: TextInputType.name,
-            keyboardAppearance: Brightness.dark,
-          ),
-          TextField(
-            controller : phoneController,
-            decoration: const InputDecoration(hintText: 'Phone...'),
-            keyboardType: TextInputType.phone,
-            keyboardAppearance: Brightness.dark,
-          ),
-          TextButton(
-            onPressed: () {
-              createContactCallback(
-                firstNameController.text, lastNameController.text, phoneController.text
-              );
-              goBackCallback();
-            },
-            child: const Text('Save Contact')
-          )
-        ]
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          children: [
+            TextField(
+              controller : firstNameController,
+              decoration: const InputDecoration(hintText: 'FirstName...'),
+              keyboardType: TextInputType.name,
+              keyboardAppearance: Brightness.dark,
+            ),
+            TextField(
+              controller : lastNameController,
+              decoration: const InputDecoration(hintText: 'LastName...'),
+              keyboardType: TextInputType.name,
+              keyboardAppearance: Brightness.dark,
+            ),
+            TextField(
+              controller : phoneController,
+              decoration: const InputDecoration(hintText: 'Phone...'),
+              keyboardType: TextInputType.phone,
+              keyboardAppearance: Brightness.dark,
+            ),
+            TextButton(
+              onPressed: () {
+                createContactCallback(
+                  firstNameController.text, lastNameController.text, phoneController.text
+                );
+                goBackCallback();
+              },
+              child: const Text('Save Contact')
+            )
+          ]
+        ),
       )
     );
   }
