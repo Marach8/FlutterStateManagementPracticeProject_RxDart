@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:rxdart_practice_course/rx_example11/loading/loadingscreen_controller.dart';
@@ -65,9 +64,3 @@ class LoadingScreen{
     );
   }
 }
-
-
-
-extension IsDebugging on String{
-  String? get isInDebugMode => kDebugMode ? this : null;
-  }

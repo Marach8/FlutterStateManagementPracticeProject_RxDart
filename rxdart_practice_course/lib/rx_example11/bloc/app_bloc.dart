@@ -49,6 +49,7 @@ class AppBloc{
     => _contactBloc.createContact.add(Contact.withoutId(
       firstName: firstName, lastName: lastName, phone: phone
     ));
+  void deleteAccount(){}
 
   void logout() => _authBloc.logoutCommand.add(null);
 
