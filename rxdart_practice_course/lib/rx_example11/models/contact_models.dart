@@ -17,8 +17,7 @@ class Contact{
    lastName = firebaseContact[Keys.lastNameKey] as String,
    phone = firebaseContact[Keys.phoneKey] as String;
 
-  @override 
-  String toString() => 'FirstName is $firstName, LastName is $lastName';
+  String get fullName => '$firstName $lastName';
 }
 
 
