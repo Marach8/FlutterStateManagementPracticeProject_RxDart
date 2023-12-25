@@ -51,11 +51,13 @@ class AuthBloc{
   final Sink<LoginCommand> loginCommand;
   final Sink<RegisterCommand> registerCommand;
   final Sink<void> logoutCommand;
+  final Sink<void> deleteAccount;
 
   void dispose(){
     loginCommand.close(); 
     registerCommand.close(); 
     logoutCommand.close();
+    deleteAccount.close();
   }
 
   const AuthBloc._({
@@ -65,7 +67,8 @@ class AuthBloc{
     required this.isLoading, 
     required this.loginCommand, 
     required this.registerCommand, 
-    required this.logoutCommand
+    required this.logoutCommand,
+    required this.deleteAccount
   });
 
   factory AuthBloc(){
@@ -110,11 +113,30 @@ class AuthBloc{
       catch (_){return const UnknownAuthError();}
     }).setLoading(false, isLoading.sink);
 
-    final Stream<AuthError?> authError = Rx.merge([loginError, registerError, logoutError]);
+    final deleteAccount = BehaviorSubject<void>();
+    final Stream<AuthError?> deleteAccountError = deleteAccount.setLoading(true, isLoading).asyncMap((_) async{
+      try{
+        await FirebaseAuth.instance.currentUser?.delete();
+        return null;
+      } on FirebaseAuthException catch(e){return AuthError.from(e);}
+      catch (_){return const UnknownAuthError();}
+    }).setLoading(false, isLoading.sink);
+
+    final Stream<AuthError?> authError = Rx.merge(
+      [
+        loginError, registerError, logoutError, deleteAccountError
+      ]
+    );
 
     return AuthBloc._(
-      authError: authError, authStatus: authStatus, isLoading: isLoading,
-      loginCommand: login, registerCommand: register, logoutCommand: logOut, userId: userId
+      authError: authError, 
+      authStatus: authStatus, 
+      isLoading: isLoading,
+      loginCommand: login, 
+      registerCommand: register, 
+      logoutCommand: logOut,
+      userId: userId,
+      deleteAccount: deleteAccount
     );
   }
 }

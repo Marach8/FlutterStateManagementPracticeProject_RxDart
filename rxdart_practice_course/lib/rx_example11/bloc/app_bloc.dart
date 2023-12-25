@@ -72,7 +72,9 @@ class AppBloc{
       )
     );
 
-  void deleteAccount(){}
+  void deleteAccount(){
+    
+  }
 
   void logout() => _authBloc.logoutCommand.add(null);
 

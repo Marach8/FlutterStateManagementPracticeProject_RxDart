@@ -24,18 +24,35 @@ extension Unwrap<T> on Stream<T?>{
 
 @immutable 
 class ContactBloc{
-  final Sink<String?> userId; final Sink<Contact> createContact;
-  final Sink<Contact> deleteContact; final Stream<Iterable<Contact>> listOfContacts;
+  final Sink<String?> userId; 
+  final Sink<Contact> createContact;
+  final Sink<Contact> deleteContact; 
+  final Sink<void> deleteAllContacts;
+  final Stream<Iterable<Contact>> listOfContacts;
   final StreamSubscription<void> createContactSubscription;
   final StreamSubscription<void> deleteContactSubscription;
+  final StreamSubscription<void> deleteAllContactsSubscription;
 
   const ContactBloc._({
-    required this.userId, required this.createContact, 
-    required this.deleteContact, required this.listOfContacts, 
-    required this.createContactSubscription, required this.deleteContactSubscription
+    required this.userId, 
+    required this.createContact, 
+    required this.deleteContact, 
+    required this.listOfContacts, 
+    required this.createContactSubscription, 
+    required this.deleteContactSubscription,
+    required this.deleteAllContactsSubscription,
+    required this.deleteAllContacts
   });
 
-  void dispose(){userId.close(); createContact.close(); deleteContact.close();}
+  void dispose(){
+    userId.close(); 
+    createContact.close(); 
+    deleteContact.close();
+    deleteAllContacts.close();
+    createContactSubscription.cancel();
+    deleteContactSubscription.cancel();
+    deleteAllContactsSubscription.cancel();
+  }
 
   factory ContactBloc(){
     final backend = FirebaseFirestore.instance;
@@ -60,10 +77,20 @@ class ContactBloc{
         => backend.collection(userId).doc(contactToDelete.id).delete());
     }).listen((_){});
 
+
+    final deleteAllContacts = BehaviorSubject<void>();
+    final deleteAllContactsSubscription = deleteAllContacts.switchMap((_) => userId.take(1).unwrap())
+      .asyncMap((id) => backend.collection(id).get())
+      .switchMap((collection) => Stream.fromFutures(collection.docs.map((doc) => doc.reference.delete())))
+      .listen((_){});
+
+
     return ContactBloc._(
       createContact: createContact,
       createContactSubscription: createContactSubscription,
       deleteContact: deleteContact,
+      deleteAllContacts: deleteAllContacts,
+      deleteAllContactsSubscription: deleteAllContactsSubscription,
       deleteContactSubscription: deleteContactSubscription,
       listOfContacts: contacts, userId: userId
     );
