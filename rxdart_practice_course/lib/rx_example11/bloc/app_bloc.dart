@@ -18,7 +18,7 @@ class AppBloc{
   final StreamSubscription<String?> userIdChanges;
 
   const AppBloc._({
-    required authBloc, 
+    required AuthBloc authBloc, 
     required ViewsBloc viewsBloc, 
     required ContactBloc contactBloc, 
     required this.currentView, 
@@ -73,7 +73,8 @@ class AppBloc{
     );
 
   void deleteAccount(){
-    
+    _contactBloc.deleteAllContacts.add(null);
+    _authBloc.deleteAccount.add(null);
   }
 
   void logout() => _authBloc.logoutCommand.add(null);
